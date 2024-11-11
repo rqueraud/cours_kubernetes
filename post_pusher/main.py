@@ -1,4 +1,4 @@
-# import logging
+import logging
 import random
 import os
 import json
@@ -6,20 +6,21 @@ from google.cloud import bigquery
 import re
 import time
 
-# log = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger(__name__)
 
 def create_dataset_if_not_exists(client, dataset_id, project_id):
     dataset_ref = bigquery.DatasetReference(project_id, dataset_id)
     try:
         client.get_dataset(dataset_ref)  # Make an API request.
-        print(f"Dataset {dataset_id} already exists.")
+        log.info(f"Dataset {dataset_id} already exists.")
     except Exception as e:
-        print(f"Dataset {dataset_id} does not exist. Creating it.")
+        log.info(f"Dataset {dataset_id} does not exist. Creating it.")
         dataset = bigquery.Dataset(dataset_ref)
         dataset.location = "US"  # Adjust location as needed
         dataset.default_table_expiration_ms = 3600000 * 24  # Example: 24 hours, adjust as needed
         client.create_dataset(dataset)  # Make an API request.
-        print(f"Created dataset {dataset_id}.")
+        log.info(f"Created dataset {dataset_id}.")
 
 def transform_key(key):
     # Remove '@' and convert to snake_case
@@ -45,8 +46,8 @@ def save_post_to_json(post, filepath):
 def post():
     # Load the post from the JSON file
     data_filepath = "./data/movies-stackexchange/json/posts.json"
-    print(data_filepath)
-    print(os.getcwd())
+    log.info(data_filepath)
+    log.info(os.getcwd())
     with open(data_filepath, "r") as f:
         content = f.read()
     posts = json.loads(content)
@@ -90,17 +91,15 @@ def post():
     # Check if the table exists and create it if it doesn't
     try:
         client.get_table(table)
-        print(f"Table {table_id} already exists.")
+        log.info(f"Table {table_id} already exists.")
     except Exception as e:
-        print(f"Table {table_id} does not exist. Creating it.")
+        log.info(f"Table {table_id} does not exist. Creating it.")
         table = bigquery.Table(table_ref, schema=schema)
         table = client.create_table(table)
-        print(f"Created table {table_id}.")
+        log.info(f"Created table {table_id}.")
 
     while True:
         post = random.choice(posts)
-
-        
 
         allowed_columns = {field.name for field in schema}
         # Transform the post for insertion and save to a temporary JSON file
@@ -117,9 +116,9 @@ def post():
         job.result()  # Wait for the job to complete
 
         if job.errors is None:
-            print("New rows have been added.")
+            log.info(f"Inserted post with id {transformed_post['id']}")
         else:
-            print("Encountered errors while inserting rows: {}".format(job.errors))
+            log.info("Encountered errors while inserting rows: {}".format(job.errors))
 
         time.sleep(10)
 

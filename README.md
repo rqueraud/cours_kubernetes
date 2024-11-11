@@ -15,6 +15,6 @@ docker build -t 2024_kubernetes_post_api -f ./post_api/Dockerfile .
 
 Pour executer les images :
 ```bash
-docker run -p 8000:8000 2024_kubernetes_post_pusher
+docker run 2024_kubernetes_post_pusher
 docker run -p 8000:8000 2024_kubernetes_post_api
 ```
