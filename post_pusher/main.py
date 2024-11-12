@@ -76,7 +76,7 @@ def post():
         bigquery.SchemaField('score', 'INTEGER', mode='REQUIRED'),
         bigquery.SchemaField('view_count', 'INTEGER', mode='NULLABLE'),
         bigquery.SchemaField('body', 'STRING', mode='REQUIRED'),
-        bigquery.SchemaField('owner_user_id', 'STRING', mode='REQUIRED'),
+        bigquery.SchemaField('owner_user_id', 'STRING', mode='NULLABLE'),
         bigquery.SchemaField('last_editor_user_id', 'STRING', mode='NULLABLE'),
         bigquery.SchemaField('last_edit_date', 'TIMESTAMP', mode='NULLABLE'),
         bigquery.SchemaField('last_activity_date', 'TIMESTAMP', mode='NULLABLE'),
