@@ -1,5 +1,7 @@
 # TP Kubernetes - Cours Data DevOps - Enseirb-Matmeca
 
+Installer git-lfs avant de cloner le repo pour pouvoir telecharger le fichier de données :
+
 ```bash
 brew install git-lfs
 git lfs install
