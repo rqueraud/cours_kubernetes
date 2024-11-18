@@ -5,4 +5,5 @@ ENV PYTHONUNBUFFERED=1
 
 COPY ./service-account.json ./service-account.json
 COPY ./post_pusher/ ./
-CMD [ "python", "main.py"]
+ENTRYPOINT [ "python"]
+CMD ["main.py"]

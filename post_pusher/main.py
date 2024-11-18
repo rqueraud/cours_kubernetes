@@ -5,6 +5,8 @@ import json
 from google.cloud import bigquery
 import re
 import time
+import argparse
+
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -120,8 +122,15 @@ def post():
         else:
             log.info("Encountered errors while inserting rows: {}".format(job.errors))
 
+        if args.one:
+            break
+
         time.sleep(10)
 
 # Main execution
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--one', action='store_true', help='Send one message and exit')
+    args = parser.parse_args()
+
     post()

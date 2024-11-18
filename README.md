@@ -2,6 +2,7 @@
 
 ```bash
 brew install git-lfs
+git lfs install
 git clone git@github.com:rqueraud/cours_kubernetes.git
 ```
 
