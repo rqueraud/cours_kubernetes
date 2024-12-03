@@ -4,5 +4,5 @@ RUN pip install google-cloud-bigquery kafka-python
 ENV PYTHONUNBUFFERED=1
 
 COPY ./service-account.json ./service-account.json
-COPY ./service_kafka/ ./
+COPY ./post_consumer/ ./
 CMD ["python", "main.py"]

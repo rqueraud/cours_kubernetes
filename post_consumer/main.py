@@ -5,7 +5,7 @@ import os
 import argparse
 
 # Configuration Kafka
-TOPIC = "test-topic"
+TOPIC = "posts"
 
 # Configuration BigQuery
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./service-account.json"
