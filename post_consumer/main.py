@@ -32,6 +32,11 @@ SCHEMA = [  # Define the schema for the table
 
 # Configuration BigQuery
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./service-account.json"
+client = bigquery.Client()
+
+project_id = client.project
+dataset_id = 'data_devops'
+table_id = 'posts'
 
 def save_post_to_json(post, filepath):
     with open(filepath, 'w') as json_file:
@@ -50,20 +55,7 @@ def create_dataset_if_not_exists(client, dataset_id, project_id):
         client.create_dataset(dataset)  # Make an API request.
         log.info(f"Created dataset {dataset_id}.")
 
-def post_bigquery(transformed_post):
-    # Authenticate with Google Cloud and initialize the BigQuery client
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./service-account.json"
-    client = bigquery.Client()
-
-    project_id = client.project
-    dataset_id = 'data_devops'
-    table_id = 'posts'
-
-    create_dataset_if_not_exists(client, dataset_id, project_id)
-
-
-    # Define the BigQuery table
-    table_ref = client.dataset(dataset_id).table(table_id)
+def create_table_if_not_exists(table_ref):
     table = bigquery.Table(table_ref)
 
     # Check if the table exists and create it if it doesn't
@@ -76,6 +68,7 @@ def post_bigquery(transformed_post):
         table = client.create_table(table)
         log.info(f"Created table {table_id}.")
 
+def post_bigquery(transformed_post, table_ref):
     temp_filepath = '/tmp/post.json'
     save_post_to_json(transformed_post, temp_filepath)
 
@@ -103,11 +96,18 @@ def main(multiple, kafka_host):
         value_deserializer=lambda x: json.loads(x.decode("utf-8"))
     )
 
+    create_dataset_if_not_exists(client, dataset_id, project_id)
+
+    # Define the BigQuery table
+    table_ref = client.dataset(dataset_id).table(table_id)
+    
+    create_table_if_not_exists(table_ref)
+
     print(f"Listening to Kafka topic '{TOPIC}'...")
     for message in consumer:
         print(f"Received message: {message.value}")
         # Transformez le message pour BigQuery (ajustez selon votre schéma)
-        post_bigquery(message.value)
+        post_bigquery(message.value, table_ref)
         
 
 if __name__ == "__main__":
