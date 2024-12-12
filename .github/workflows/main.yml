@@ -6,20 +6,27 @@ on:
       - main
 
 jobs:
-  job-id:
-    - uses: 'actions/checkout@v4'
-    - id: 'auth'
-      uses: 'google-github-actions/auth@v2'
-      with:
-        credentials_json: '${{ secrets.gcp_credentials }}'
+  deploy-to-gcp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - id: 'compute-ssh'
-      uses: 'google-github-actions/ssh-compute@v1'
-      with:
-        instance_name: 'instance-20241119-090819'
-        zone: 'europe-west1-b'
-        ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-        command: 'echo Hello world'
+      - name: Authenticate to GCP
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.gcp_credentials }}'
+
+      - name: SSH into GCP VM and execute command
+        id: compute-ssh
+        uses: google-github-actions/ssh-compute@v1
+        with:
+          instance_name: 'instance-20241119-090819'
+          zone: 'europe-west1-b'
+          ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
+          command: 'echo Hello world'
+
 
    # - name: Set up Docker
    #   uses: docker/setup-buildx-action@v2
