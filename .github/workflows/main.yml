@@ -39,5 +39,5 @@ jobs:
         ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
         command: |
           echo "Deploying on GCP VM..."
-          docker run 2024_kubernetes_post_pusher
-          docker run 2024_kubernetes_post_consumer
+# docker run 2024_kubernetes_post_pusher
+# docker run 2024_kubernetes_post_consumer
