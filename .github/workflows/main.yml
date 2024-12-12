@@ -31,13 +31,6 @@ jobs:
         docker build -t 2024_kubernetes_post_pusher -f ./post_pusher/Dockerfile .
         docker build -t 2024_kubernetes_post_consumer -f ./post_consumer/Dockerfile .
 
-    - name: Push Docker Images to GCP Artifact Registry
-      run: |
-        docker tag 2024_kubernetes_post_pusher gcr.io/${{ secrets.GCP_PROJECT_ID }}/2024_kubernetes_post_pusher
-        docker tag 2024_kubernetes_post_consumer gcr.io/${{ secrets.GCP_PROJECT_ID }}/2024_kubernetes_post_consumer
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/2024_kubernetes_post_pusher
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/2024_kubernetes_post_consumer
-
     - name: SSH into GCP VM and Deploy
       uses: google-github-actions/ssh-compute@v1
       with:
@@ -46,7 +39,5 @@ jobs:
         ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
         command: |
           echo "Deploying on GCP VM..."
-          docker pull gcr.io/${{ secrets.GCP_PROJECT_ID }}/2024_kubernetes_post_pusher
-          docker pull gcr.io/${{ secrets.GCP_PROJECT_ID }}/2024_kubernetes_post_consumer
-          docker run --rm -d gcr.io/${{ secrets.GCP_PROJECT_ID }}/2024_kubernetes_post_pusher
-          docker run --rm -d gcr.io/${{ secrets.GCP_PROJECT_ID }}/2024_kubernetes_post_consumer
+          docker run 2024_kubernetes_post_pusher
+          docker run 2024_kubernetes_post_consumer
