@@ -27,6 +27,7 @@ jobs:
 
     - name: Build Docker Images
       run: |
+        echo "${{secrets.gcp_credentials }}" > service-account.json
         docker build -t 2024_kubernetes_post_pusher -f ./post_pusher/Dockerfile .
         docker build -t 2024_kubernetes_post_consumer -f ./post_consumer/Dockerfile .
 
