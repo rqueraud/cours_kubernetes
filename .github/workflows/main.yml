@@ -22,6 +22,7 @@ jobs:
         id: compute-ssh
         uses: google-github-actions/ssh-compute@v1
         with:
+          project-id : ${{ secrets.GCP_PROJECT_ID }}
           instance_name: 'instance-20241119-090819'
           zone: 'europe-west1-b'
           ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
