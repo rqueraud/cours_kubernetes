@@ -53,6 +53,6 @@ jobs:
             kubectl apply -f cours_kafka/ui/deployment.yaml
 
             kubectl apply -f post_pusher/deployment.yaml 
-            kubectl apply -f post_consumer/deployment.yaml 
+            kubectl apply -f post_consumer/deployment_consumer.yaml 
           EOF
 
