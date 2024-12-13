@@ -25,32 +25,12 @@ jobs:
     - name: Add SSH Public Key to GCP VM
       run: |
         mkdir -p ~/.ssh
-        eval "$(ssh-agent -s)"
         echo "${{ secrets.GCP_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         echo "${{ secrets.GCP_SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
         chmod 644 ~/.ssh/id_rsa.pub
-        ssh-add ~/.ssh/id_rsa
-        gcloud compute ssh --zone "europe-west1-b" "instance-20241119-090819" --project "${{ secrets.GCP_PROJECT_ID }}" \
-        --command "echo Hello world" --quiet
-
-
-   # - name: Set up Docker
-   #   uses: docker/setup-buildx-action@v2
-
-  #  - name: Build Docker Images
- #     run: |
-# echo "${{secrets.gcp_credentials }}" > service-account.json
-# docker build -t 2024_kubernetes_post_pusher -f ./post_pusher/Dockerfile .
-# docker build -t 2024_kubernetes_post_consumer -f ./post_consumer/Dockerfile .
-
-#    - name: SSH into GCP VM and Deploy
- #     uses: google-github-actions/ssh-compute@v1
-  #    with:
-  #      instance_name: 'instance-20241119-090819'
-   #     zone: 'europe-west1-b'
-    #    ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-     #   command: |
-      #    echo "Deploying on GCP VM..."
-# docker run 2024_kubernetes_post_pusher
-# docker run 2024_kubernetes_post_consumer
+        ssh -i ~/.ssh/id_rsa '${{ secrets.USER }}'@'${{ secrets.IP }}'
+        cd cours_kubernetes
+        git pull
+        docker build -t 2024_kubernetes_post_pusher -f ./post_pusher/Dockerfile .
+        docker build -t 2024_kubernetes_post_consumer -f ./post_consumer/Dockerfile .
