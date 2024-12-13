@@ -24,10 +24,11 @@ jobs:
 
     - name: Add SSH Public Key to GCP VM
       run: |
-        echo "${{ secrets.GCP_SSH_PRIVATE_KEY }}" > private_key
-        chmod 600 private_key
-        echo "${{ secrets.GCP_SSH_PUBLIC_KEY }}" > private_key.pub
-        chmod 600 private_key.pub
+        mkdir -p ~/.ssh
+        echo "${{ secrets.GCP_SSH_PRIVATE_KEY }}" > ~/.ssh/private_key
+        chmod 600 ~/.ssh/private_key
+        echo "${{ secrets.GCP_SSH_PUBLIC_KEY }}" > ~/.ssh/private_key.pub
+        chmod 644 ~/.ssh/private_key.pub
         gcloud compute ssh --zone "europe-west1-b" "instance-20241119-090819" --project "${{ secrets.GCP_PROJECT_ID }}" \
         --command "echo Hello world" --quiet
 
