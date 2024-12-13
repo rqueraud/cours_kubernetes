@@ -1,36 +1,26 @@
-name: Deploy to GCP VM
+name: SSH and CD Workflow
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  deploy-to-gcp:
-    permissions:
-      contents: 'read'
-      id-token: 'write'
+  ssh_and_cd:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Authenticate to Google Cloud
-      id: auth
-      uses: google-github-actions/auth@v2
-      with:
-        credentials_json: '${{ secrets.gcp_credentials }}'
-
-    - name: Add SSH Public Key to GCP VM
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.GCP_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        echo "${{ secrets.GCP_SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
-        chmod 644 ~/.ssh/id_rsa.pub
-        ssh -i ~/.ssh/id_rsa '${{ secrets.USER }}'@'${{ secrets.IP }}'
-        cd cours_kubernetes
-        git pull
-        docker build -t 2024_kubernetes_post_pusher -f ./post_pusher/Dockerfile .
-        docker build -t 2024_kubernetes_post_consumer -f ./post_consumer/Dockerfile .
+      - name: Set up SSH and navigate to directory
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GCP_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.GCP_SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
+          chmod 644 ~/.ssh/id_rsa.pub
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "${{ secrets.USER }}"@"${{ secrets.IP }}" << EOF
+            cd cours_kubernetes
+          EOF
