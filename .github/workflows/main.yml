@@ -26,21 +26,10 @@ jobs:
       run: |
         echo "${{ secrets.GCP_SSH_PRIVATE_KEY }}" > private_key
         chmod 600 private_key
-        ssh-keygen -y -f private_key > public_key.pub
-        gcloud compute os-login ssh-keys add \
-          --key-file=public_key.pub \
-          --ttl=1h # Temporary access for 1 hour
-
-    - name: SSH to GCP VM and execute command
-      id: compute-ssh
-      uses: google-github-actions/ssh-compute@v1
-      with:
-        project_id: '${{ secrets.GCP_PROJECT_ID }}'
-        instance_name: 'instance-20241119-090819'
-        zone: 'europe-west1-b'
-        ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-        command: 'echo Hello world'
-
+        echo "${{ secrets.GCP_SSH_PUBLIC_KEY }}" > private_key.pub
+        chmod 600 private_key.pub
+        gcloud compute ssh --zone "europe-west1-b" "instance-20241119-090819" --project "$ {{ GCP_PROJECT_ID }}"
+        echo "Hello word"
 
 
    # - name: Set up Docker
