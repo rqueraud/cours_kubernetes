@@ -7,26 +7,30 @@ on:
 
 jobs:
   deploy-to-gcp:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Authenticate to GCP
-        id: auth
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: '${{ secrets.gcp_credentials }}'
+    - name: Authenticate to Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
-      - name: SSH into GCP VM and execute command
-        id: compute-ssh
-        uses: google-github-actions/ssh-compute@v1
-        with:
-          project-id : ${{ secrets.GCP_PROJECT_ID }}
-          instance_name: 'instance-20241119-090819'
-          zone: 'europe-west1-b'
-          ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-          command: 'echo Hello world'
+    - name: SSH to GCP VM and execute command
+      id: compute-ssh
+      uses: google-github-actions/ssh-compute@v1
+      with:
+        instance_name: 'instance-20241119-090819'
+        zone: 'europe-west1-b'
+        ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
+        command: 'echo Hello world'
+        show_ssh_output: true
 
 
    # - name: Set up Docker
