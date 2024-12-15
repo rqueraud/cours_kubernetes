@@ -1,15 +1,11 @@
 #!/bin/bash
-echo "Building Docker images..."
-docker build -t 2024_kubernetes_post_pusher -f ./post_pusher/Dockerfile .
-docker build -t 2024_kubernetes_post_consumer -f ./post_consumer/Dockerfile .
-
-echo "Loading Docker images into Kind..."
-kind load docker-image 2024_kubernetes_post_pusher
-kind load docker-image 2024_kubernetes_post_consumer  
 
 echo "Creating namespaces..."
 kubectl create namespace airflow || true
-kubectl create namespace app || true
+
+echo "Building Docker images..."
+docker build -t 2024_kubernetes_post_pusher -f ./post_pusher/Dockerfile .
+docker build -t 2024_kubernetes_post_consumer -f ./post_consumer/Dockerfile .
 
 echo "Deploying Airflow..."
 kubectl apply -f ./airflow/airflow-dags-pv.yaml 
@@ -21,6 +17,10 @@ kubectl cp ./post_pusher/post_pusher_dag.py airflow-scheduler:/opt/airflow/dags 
 echo "Creating Kind cluster..."
 kind delete cluster || true
 kind create cluster --config ./kind/config.yaml
+
+echo "Loading Docker images into Kind..."
+kind load docker-image 2024_kubernetes_post_pusher
+kind load docker-image 2024_kubernetes_post_consumer  
 
 echo "Deploying Kafka..."
 kubectl apply -f cours_kafka/kafka/service.yaml
