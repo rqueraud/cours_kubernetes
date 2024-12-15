@@ -1,5 +1,10 @@
 #!/bin/bash
 
+who
+who
+who
+who
+
 echo "Creating namespaces..."
 kubectl create namespace airflow || true
 
