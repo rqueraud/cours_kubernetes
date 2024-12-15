@@ -13,7 +13,25 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
 TOPIC = "posts"  # Name of the Kafka topic
-
+SCHEMA = [  # Define the schema for the table
+    bigquery.SchemaField('id', 'STRING', mode='REQUIRED'),
+    bigquery.SchemaField('post_type_id', 'STRING', mode='REQUIRED'),
+    bigquery.SchemaField('accepted_answer_id', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('creation_date', 'TIMESTAMP', mode='REQUIRED'),
+    bigquery.SchemaField('score', 'INTEGER', mode='REQUIRED'),
+    bigquery.SchemaField('view_count', 'INTEGER', mode='NULLABLE'),
+    bigquery.SchemaField('body', 'STRING', mode='REQUIRED'),
+    bigquery.SchemaField('owner_user_id', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('last_editor_user_id', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('last_edit_date', 'TIMESTAMP', mode='NULLABLE'),
+    bigquery.SchemaField('last_activity_date', 'TIMESTAMP', mode='NULLABLE'),
+    bigquery.SchemaField('title', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('tags', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('answer_count', 'INTEGER', mode='NULLABLE'),
+    bigquery.SchemaField('comment_count', 'INTEGER', mode='REQUIRED'),
+    bigquery.SchemaField('content_license', 'STRING', mode='REQUIRED'),
+    bigquery.SchemaField('parent_id', 'STRING', mode='NULLABLE')
+]
 
 def transform_key(key):
     # Remove '@' and convert to snake_case
@@ -73,10 +91,7 @@ def main(multiple, kafka_host):
         # Transform the post for insertion and save to a temporary JSON file
         transformed_post = transform_and_filter_post(post, allowed_columns)
         
-        if not kafka_host:
-            post_bigquery(transformed_post)
-        else:
-            post_kafka(transformed_post, kafka_host)
+        post_kafka(transformed_post, kafka_host)
 
         if not args.multiple:
             break
