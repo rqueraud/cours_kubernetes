@@ -24,14 +24,9 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "${{ secrets.USER }}"@"${{ secrets.IP }}" << EOF
             cd cours_kubernetes
             git pull origin main
-            
 
             docker build -t 2024_kubernetes_post_pusher -f ./post_pusher/Dockerfile .
             docker build -t 2024_kubernetes_post_consumer -f ./post_consumer/Dockerfile .
-
-            docker run -d --name post_pusher_container 2024_kubernetes_post_pusher
-            docker run -d --name post_consumer_container 2024_kubernetes_post_consumer
-
 
             kubectl create namespace airflow || true
             kubectl apply -f ./airflow/airflow-dags-pv.yaml 
