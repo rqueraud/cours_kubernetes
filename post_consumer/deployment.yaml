@@ -5,21 +5,17 @@ metadata:
   labels:
     app: post-consumer-kafka
 spec:
-  replicas: 
-    valueFrom:
-      configMapKeyRef:
-        name: post-consumer-config
-        key: replicas
+  replicas: 1
   selector:
     matchLabels:
-      app: post-consumer spec-runtime
+      app: post-consumer-kafka
   template:
     metadata:
       labels:
         app: post-consumer-kafka
     spec:
       containers:
-      - name: post-consumer-kafka
+      - name: kafka-consumer
         image: 2024_kubernetes_post_consumer
         imagePullPolicy: Never
         command: ["python", "main.py", "--multiple", "--kafka_host=kafka-broker-service:9092"]
