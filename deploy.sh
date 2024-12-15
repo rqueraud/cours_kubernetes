@@ -1,10 +1,4 @@
 #!/bin/bash
-set -e
-
-echo "Creating Kind cluster..."
-kind delete cluster || true
-kind create cluster --config ./kind/config.yaml
-
 echo "Building Docker images..."
 docker build -t 2024_kubernetes_post_pusher -f ./post_pusher/Dockerfile .
 docker build -t 2024_kubernetes_post_consumer -f ./post_consumer/Dockerfile .
@@ -22,7 +16,11 @@ kubectl apply -f ./airflow/airflow-dags-pv.yaml
 kubectl apply -f ./airflow/airflow-dags-pvc.yaml 
 helm repo add airflow-stable https://airflow-helm.github.io/charts
 helm install airflow airflow-stable/airflow --namespace airflow --version 8.9.0 --values ./airflow/custom-values.yaml 
-kubectl cp ./post_pusher_dag.py airflow-scheduler:/opt/airflow/dags -n airflow
+kubectl cp ./post_pusher/post_pusher_dag.py airflow-scheduler:/opt/airflow/dags -n airflow
+
+echo "Creating Kind cluster..."
+kind delete cluster || true
+kind create cluster --config ./kind/config.yaml
 
 echo "Deploying Kafka..."
 kubectl apply -f cours_kafka/kafka/service.yaml
