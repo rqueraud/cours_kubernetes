@@ -1,10 +1,5 @@
 #!/bin/bash
 
-who
-who
-who
-who
-
 echo "Creating namespaces..."
 kubectl create namespace airflow || true
 
@@ -17,6 +12,9 @@ kubectl apply -f ./airflow/airflow-dags-pv.yaml
 kubectl apply -f ./airflow/airflow-dags-pvc.yaml 
 helm repo add airflow-stable https://airflow-helm.github.io/charts || true
 helm install airflow airflow-stable/airflow --namespace airflow --version 8.9.0 --values ./airflow/custom-values.yaml || true
+
+echo "Port-forwarding Airflow UI..."
+kubectl port-forward svc/airflow-web 8080:8080 --namespace airflow
 
 echo "Creating Kind cluster..."
 kind delete cluster || true
@@ -38,6 +36,3 @@ kubectl apply -f cours_kafka/ui/deployment.yaml
 echo "Deploying application services..."
 kubectl apply -f post_pusher/deployment.yaml 
 kubectl apply -f post_consumer/deployment.yaml 
-
-echo "Port-forwarding Airflow UI..."
-kubectl port-forward svc/airflow-web 8080:8080 --namespace airflow
