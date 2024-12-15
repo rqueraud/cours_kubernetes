@@ -12,7 +12,6 @@ kubectl apply -f ./airflow/airflow-dags-pv.yaml
 kubectl apply -f ./airflow/airflow-dags-pvc.yaml 
 helm repo add airflow-stable https://airflow-helm.github.io/charts
 helm install airflow airflow-stable/airflow --namespace airflow --version 8.9.0 --values ./airflow/custom-values.yaml 
-kubectl cp ./post_pusher/post_pusher_dag.py airflow-scheduler:/opt/airflow/dags -n airflow
 
 echo "Creating Kind cluster..."
 kind delete cluster || true
