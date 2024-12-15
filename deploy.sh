@@ -10,8 +10,8 @@ docker build -t 2024_kubernetes_post_consumer -f ./post_consumer/Dockerfile .
 echo "Deploying Airflow..."
 kubectl apply -f ./airflow/airflow-dags-pv.yaml 
 kubectl apply -f ./airflow/airflow-dags-pvc.yaml 
-helm repo add airflow-stable https://airflow-helm.github.io/charts
-helm install airflow airflow-stable/airflow --namespace airflow --version 8.9.0 --values ./airflow/custom-values.yaml 
+helm repo add airflow-stable https://airflow-helm.github.io/charts || true
+helm install airflow airflow-stable/airflow --namespace airflow --version 8.9.0 --values ./airflow/custom-values.yaml || true
 
 echo "Creating Kind cluster..."
 kind delete cluster || true
