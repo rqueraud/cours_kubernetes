@@ -25,8 +25,8 @@ kind load docker-image 2024_kubernetes_post_pusher
 kind load docker-image 2024_kubernetes_post_consumer  
 
 echo "Deploying Kafka..."
-kubectl apply -f cours_kafka/kafka/service.yaml
 kubectl apply -f cours_kafka/kafka/deployment.yaml 
+kubectl apply -f cours_kafka/kafka/service.yaml
 
 echo "Deploying Kafka UI..."
 kubectl apply -f cours_kafka/ui/configmap.yaml
