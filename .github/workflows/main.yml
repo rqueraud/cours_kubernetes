@@ -24,6 +24,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "${{ secrets.USER }}"@"${{ secrets.IP }}" << EOF
             cd cours_kubernetes
             git pull origin main
+            echo "${{secrets.GCP_CREDENTIALS}}" > service_account.json 
             chmod +x deploy.sh
             ./deploy.sh
           EOF
