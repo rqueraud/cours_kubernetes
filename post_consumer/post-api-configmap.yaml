@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: post-api-config
+data:
+  dataset_name: "data_devops"
+  table_name: "posts"

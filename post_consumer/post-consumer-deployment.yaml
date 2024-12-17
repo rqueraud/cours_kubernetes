@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: post-consumer
+  template:
+    metadata:
+      labels:
+        app: post-consumer
+    spec:
+      containers:
+      - name: post-consumer
+        image: post-consumer:latest
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: DATASET_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: post-api-config
+                key: dataset_name
+          - name: TABLE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: post-api-config
+                key: table_name
+        volumeMounts:
+          - name: service-account
+            mountPath: "/secrets"
+            readOnly: true
+      volumes:
+        - name: service-account
+          secret:
+            secretName: post-pusher-secret
