@@ -22,9 +22,6 @@ jobs:
           echo "${{ secrets.GCP_SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
           chmod 644 ~/.ssh/id_rsa.pub
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "${{ secrets.USER }}"@"${{ secrets.IP }}" << EOF
-            source .bashrc
-            kind --version
-            cat .bashrc | tail -n 2
             cd cours_kubernetes
             git pull origin main
             echo "${{secrets.GCP_CREDENTIALS}}" > service_account.json 
