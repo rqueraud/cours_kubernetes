@@ -1,0 +1,11 @@
+# airflow/post-pusher-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: post-pusher-config
+  namespace: airflow
+data:
+  KAFKA_HOST: "kafka-service"
+  KAFKA_PORT: "9092"
+  KAFKA_TOPIC: "posts"
+  DATA_PATH: "/opt/airflow/dags/modules/post_pusher/data/movies-stackexchange/json/posts.json"
