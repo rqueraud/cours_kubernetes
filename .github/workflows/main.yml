@@ -26,6 +26,6 @@ jobs:
             git pull origin main
             echo "${{secrets.GCP_CREDENTIALS}}" > service_account.json 
             chmod +x deploy.sh
-            ./deploy.sh
+            sudo ./deploy.sh
           EOF
 
