@@ -1,0 +1,5 @@
+version: 2
+sources:
+  - name: data_devops
+    tables:
+      - name: posts

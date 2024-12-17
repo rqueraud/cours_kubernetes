@@ -208,24 +208,36 @@ logs:
 ## CONFIG | Airflow DAGs
 ###################################
 dags:
-  ## the airflow dags folder
+ ## the airflow dags folder
   path: /opt/airflow/dags
 
+  # ## configs for the dags PVC
+  # ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/dags/load-dag-definitions.md
+  # persistence:
+  #   enabled: true
+    
+  #   ## NOTE: this is name of your existing volume
+  #   existingClaim: airflow-dags
+    
+  #   ## NOTE: as multiple Pods read the DAGs concurrently this MUST be ReadOnlyMany or ReadWriteMany
+  #   accessMode: ReadOnlyMany
+
   ## configs for the dags PVC
-  ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/dags/load-dag-definitions.md
   persistence:
-    enabled: true
-    
-    ## NOTE: this is name of your existing volume
-    existingClaim: airflow-dags
-    
-    ## NOTE: as multiple Pods read the DAGs concurrently this MUST be ReadOnlyMany or ReadWriteMany
-    accessMode: ReadOnlyMany
+    enabled: false  # Désactivez la persistance basée sur le volume
 
   ## configs for the git-sync sidecar
-  ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/dags/load-dag-definitions.md
   gitSync:
-    enabled: false
+    enabled: true  # Active le sidecar git-sync
+    repo: https://github.com/YASSRBM/devops-dags.git  # URL du dépôt GitHub
+    branch: main  # Branche que vous voulez synchroniser (par défaut "main")
+    interval: 60  # Fréquence de synchronisation en secondes (ici toutes les 60 secondes)
+    syncWait: 0  # Temps d'attente avant la première synchronisation
+    username: ""  # Si vous utilisez HTTPS avec authentification, ajoutez ici votre nom d'utilisateur GitHub
+    password: ""  # Si vous utilisez HTTPS avec un token, ajoutez le token ici
+    sshKeySecret: ""  # Nom du secret Kubernetes contenant une clé SSH privée (si vous utilisez SSH)
+    subPath: ""  # Chemin relatif dans le dépôt à synchroniser (laisser vide pour synchroniser tout le dépôt)
+    depth: 1  # Historique Git minimal requis (par défaut 1 pour économiser de l'espace)
 
 ###################################
 ## CONFIG | Kubernetes Ingress
