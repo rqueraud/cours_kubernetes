@@ -1,0 +1,64 @@
+[0m18:01:30.255266 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f43e3f41550>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f43e5360910>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f43e379e850>]}
+
+
+============================== 18:01:30.262236 | 90493aa2-2db2-4f9a-ba50-5ead19b8fb99 ==============================
+[0m18:01:30.262236 [info ] [MainThread]: Running with dbt=1.9.0
+[0m18:01:30.262624 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/yasser/.dbt', 'debug': 'False', 'version_check': 'True', 'log_path': 'logs', 'warn_error': 'None', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'invocation_command': 'dbt init devops', 'log_format': 'default', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m18:01:30.267082 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse logging event dictionary. Failed to parse dir field: expected string or bytes-like object, got 'PosixPath'.. Dictionary: {'dir': PosixPath('/home/yasser/.dbt')}
+[0m18:01:30.267347 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m18:01:30.268133 [debug] [MainThread]: Starter project path: /home/yasser/kafka/cours_kubernetes/dbt/lib/python3.13/site-packages/dbt/include/starter_project
+[0m18:01:30.269420 [info ] [MainThread]: 
+Your new dbt project "devops" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m18:01:30.269705 [info ] [MainThread]: Setting up your profile.
+[0m18:02:46.984464 [info ] [MainThread]: Profile devops written to /home/yasser/.dbt/profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m18:02:47.108365 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 76.89058, "process_in_blocks": "23744", "process_kernel_time": 0.171523, "process_mem_max_rss": "208096", "process_out_blocks": "3416", "process_user_time": 1.611518}
+[0m18:02:47.112314 [debug] [MainThread]: Command `dbt init` succeeded at 18:02:47.112149 after 76.90 seconds
+[0m18:02:47.113664 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f43ce459940>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f43e333a9f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f43ce4acaf0>]}
+[0m18:02:47.115458 [debug] [MainThread]: Flushing usage events
+[0m18:02:48.031921 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m18:29:37.794420 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8c77d0980>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8c8c60550>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8c7009f90>]}
+
+
+============================== 18:29:37.800372 | b962676c-dbdd-47f0-8ff1-184bcc89f651 ==============================
+[0m18:29:37.800372 [info ] [MainThread]: Running with dbt=1.9.0
+[0m18:29:37.800818 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'fail_fast': 'False', 'log_path': 'logs', 'profiles_dir': '/home/yasser/.dbt', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'False', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'static_parser': 'True', 'invocation_command': 'dbt run', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m18:29:37.801157 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /home/yasser/kafka/cours_kubernetes/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m18:29:37.803117 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": false, "command_wall_clock_time": 0.04777625, "process_in_blocks": "87368", "process_kernel_time": 0.130346, "process_mem_max_rss": "90452", "process_out_blocks": "24", "process_user_time": 0.861077}
+[0m18:29:37.803541 [debug] [MainThread]: Command `dbt run` failed at 18:29:37.803456 after 0.05 seconds
+[0m18:29:37.803769 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8c6b10640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8c6bbee70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff8c6bd99d0>]}
+[0m18:29:37.804015 [debug] [MainThread]: Flushing usage events
+[0m18:29:38.157146 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m10:01:52.142132 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff96a3d8980>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff96b850550>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff969c0df90>]}
+
+
+============================== 10:01:52.148401 | 5c94eebe-6726-42e6-9c72-69b7046eac6f ==============================
+[0m10:01:52.148401 [info ] [MainThread]: Running with dbt=1.9.0
+[0m10:01:52.148951 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/yasser/.dbt', 'debug': 'False', 'fail_fast': 'False', 'log_path': 'logs', 'warn_error': 'None', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'False', 'quiet': 'False', 'no_print': 'None', 'log_format': 'default', 'invocation_command': 'dbt run', 'introspect': 'True', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m10:01:52.149325 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /home/yasser/tp/tp/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m10:01:52.151171 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": false, "command_wall_clock_time": 0.059053726, "process_in_blocks": "98264", "process_kernel_time": 0.142317, "process_mem_max_rss": "90372", "process_out_blocks": "8", "process_user_time": 0.925062}
+[0m10:01:52.151670 [debug] [MainThread]: Command `dbt run` failed at 10:01:52.151536 after 0.06 seconds
+[0m10:01:52.151999 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff969718640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff9697c6e70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff9697e19d0>]}
+[0m10:01:52.152317 [debug] [MainThread]: Flushing usage events
+[0m10:01:52.514740 [debug] [MainThread]: An error was encountered while trying to flush usage events

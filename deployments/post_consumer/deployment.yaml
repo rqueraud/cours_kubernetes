@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-consumer-kafka
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: post-consumer-kafka
+  template:
+    metadata:
+      labels:
+        app: post-consumer-kafka
+    spec:
+      containers:
+      - name: post-consumer-kafka
+        image: 2024_kubernetes_post_consumer
+        imagePullPolicy: Never
+        command: ["python", "main.py"]
+        envFrom:
+        - configMapRef:
+            name: kafka-config
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: "/var/secrets/service-account.json"  # Chemin dans le conteneur
+        volumeMounts:
+        - name: kafka-service-account-volume
+          mountPath: /var/secrets
+          readOnly: true
+      volumes:
+      - name: kafka-service-account-volume
+        secret:
+          secretName: kafka-service-account
