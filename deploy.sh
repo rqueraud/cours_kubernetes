@@ -18,8 +18,8 @@ kind delete cluster || true
 kind create cluster --config ./kind/config.yaml
 
 echo "Loading Docker images into Kind..."
-kind load docker-image 2024_kubernetes_post_pusher
-kind load docker-image 2024_kubernetes_post_consumer  
+sudo kind load docker-image 2024_kubernetes_post_pusher
+sudp kind load docker-image 2024_kubernetes_post_consumer  
 
 echo "Deploying Kafka..."
 kubectl apply -f cours_kafka/kafka/deployment.yaml 
