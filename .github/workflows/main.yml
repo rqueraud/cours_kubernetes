@@ -1,0 +1,31 @@
+name: SSH and CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  ssh_and_cd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH and navigate to directory
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GCP_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.GCP_SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
+          chmod 644 ~/.ssh/id_rsa.pub
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "${{ secrets.USER }}"@"${{ secrets.IP }}" << EOF
+            cd cours_kubernetes
+            git pull origin main
+            echo "${{secrets.GCP_CREDENTIALS}}" > service_account.json 
+            chmod +x deploy.sh
+            sudo ./deploy.sh
+          EOF
+
